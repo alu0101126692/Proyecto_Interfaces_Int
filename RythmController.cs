@@ -24,14 +24,14 @@ public class RythmController : Experience
     public Text pointText;
 
     public float offsetTime; // Tiempo que tarda la nota en llegar al medio
-    public float pressRange;
-    public float speed;
+   
+    public float speed; // Velocidad de las notas
 
-    public float points = 0;
+    public float points = 0; // Puntos actuales
 
-    public List<GameObject> noteObjects;
+    public List<GameObject> noteObjects; // Lista del objeto que representa las notas
 
-    public float shakeForce;
+    public float shakeForce; // Fuerza necesaria con la que se debe agitar el movil para que se toque la nota
 
     public TextMeshPro endText;
     public TextMeshPro endPoints;
@@ -54,7 +54,7 @@ public class RythmController : Experience
         */
     }
 
-
+    // Abre el menu de pausa
     void openPauseMenu() {
         experiencePaused = true;
         video.Pause();
@@ -65,7 +65,7 @@ public class RythmController : Experience
             parentObject.GetChild(i).GetComponent<NoteAdvance>().pause();
         }
     }
-
+    // Reanuda el juego
     void resume() {
         experiencePaused = false;
         video.Play();
@@ -95,7 +95,7 @@ public class RythmController : Experience
         
             
     }
-
+    
     public override void receiveOrder(string order) {
         if (order == "pausa") {
             openPauseMenu();
@@ -110,7 +110,7 @@ public class RythmController : Experience
         }
         
     }
-
+    // Administra la pantalla de resultado
     private void endScreen() {
         endText.enabled = true;
         endPoints.enabled = true;
@@ -134,11 +134,10 @@ public class RythmController : Experience
         
     }
 
-    
+       // Instancia las notas
     private void spawnNotes() {
 
         if (noteTimer >= notesList[currentNote] - offsetTime) {
-            Debug.Log("note " + currentNote.ToString() + " " + (noteTimer).ToString() + " " + offsetTime.ToString());
             GameObject actualNote = Instantiate(Note);
             actualNote.name = currentNote.ToString();
             actualNote.transform.SetParent(parentObject, false);
@@ -151,12 +150,15 @@ public class RythmController : Experience
 
         
     }
-
+    
+    
     public void buttonPressManage(InputAction.CallbackContext value) {
         if (value.started) {
         manageNote();
         } 
     }
+    
+    // Maneja la pulsacion de notas
     public void manageNote() {
         buttonNotPress.enabled = false;
         buttonPress.enabled = true;
@@ -164,7 +166,6 @@ public class RythmController : Experience
         float pressedTime = noteTimer;
         int noteID = 0;
         float pointReduction = 0;
-        Debug.Log(pressedTime);
         for (int i = 0; i < notesList.Count; i++) {
             if (notesList[i] >= pressedTime - pressRange && notesList[i] <= pressedTime + pressRange) {
                 noteID = i;
