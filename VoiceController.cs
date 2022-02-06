@@ -47,7 +47,7 @@ public class VoiceController : MonoBehaviour {
     
     
   }
-
+  
   public void startListening() {
     SpeechToText.instance.StartRecording();
     microphoneIcon.enabled = true;
@@ -60,12 +60,14 @@ public class VoiceController : MonoBehaviour {
     SpeechToText.instance.StopRecording();
     microphoneIcon.enabled = false;
   }
-
+  
+  // Se ejecuta cuando la API del reconocimiento de voz termina de reconocer la palabra
   void onFinalSpeechResult(string result) {
     audioIn = result;
     stopListening();
   }    
-
+  
+  // Se ejecuta cuando la API del reconocimiento de voz reconoce parcialmente la palabra
   void onPartialSpeechResult(string result) {
     audioIn = result;
     stopListening();
@@ -74,7 +76,8 @@ public class VoiceController : MonoBehaviour {
   void Setup(string code) {
     SpeechToText.instance.Setting(code);
   }
-
+  
+  // Termina el reconocimiento de voz si no se han obtenido resultados despues de unos segundos
   private IEnumerator endRecognitionByTime() {
     yield return new WaitForSeconds(recognitionTime);
     if (isListening) {
