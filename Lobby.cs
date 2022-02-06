@@ -18,7 +18,8 @@ public class Lobby : MonoBehaviour {
   void Update() {
     playGif();
   }
-
+  
+  // Inicia el gif de los objetos cuando se miran
   private void playGif() {
     RaycastHit hit;
     Debug.DrawLine(transform.position, transform.position + transform.forward * 500, Color.red);
@@ -31,6 +32,8 @@ public class Lobby : MonoBehaviour {
       }
     }
   }
+  
+  // Selecciona la escena y la carga
   public void selectScene() {
     RaycastHit hit;
     Debug.DrawLine(transform.position, transform.position + transform.forward * 500, Color.red);
